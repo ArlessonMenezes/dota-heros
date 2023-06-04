@@ -37,4 +37,10 @@ export class UserService {
 
       await this.userRepository.save(newUser);
     }
+
+    async getUsers() {
+      return this.userRepository.find({
+        select: ['idUser', 'username', 'email']
+      });
+    }
 }

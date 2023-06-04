@@ -5,6 +5,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/model/user.entity';
+import { JwtModule } from '@nestjs/jwt/dist';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { User } from './user/model/user.entity';
     }as TypeOrmModuleOptions),
     UserModule,
     AuthModule,
+    JwtModule,
   ],
   controllers: [],
   providers: [],
