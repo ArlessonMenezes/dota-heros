@@ -6,6 +6,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/model/user.entity';
 import { JwtModule } from '@nestjs/jwt/dist';
+import { HeroModule } from './hero/hero.module';
+import { Hero } from './hero/model/hero.entity';
 
 @Module({
   imports: [
@@ -19,13 +21,14 @@ import { JwtModule } from '@nestjs/jwt/dist';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User],
+      entities: [User, Hero],
       synchronize: true,
       autoLoadEntities: true
     }as TypeOrmModuleOptions),
     UserModule,
     AuthModule,
     JwtModule,
+    HeroModule,
   ],
   controllers: [],
   providers: [],
