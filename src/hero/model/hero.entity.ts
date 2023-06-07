@@ -16,7 +16,7 @@ export class Hero {
   description: string;
 
   @Column()
-  typeHero: number;
+  typeHero: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

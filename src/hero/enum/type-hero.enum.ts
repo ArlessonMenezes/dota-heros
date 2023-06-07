@@ -1,0 +1,5 @@
+export enum TypeHeroEnum {
+  STRENGH = 'STRENGH',
+  AGILITY = 'AGILITY',
+  INTELLIGENCE = 'INTELLIGENCE',
+}
