@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateHeroDto } from './dtos/create-hero.dto';
+import { UpdateHeroDto } from './dtos/update-hero.dto';
 import { Hero } from './model/hero.entity';
 
 @Injectable()
@@ -32,6 +33,20 @@ export class HeroService {
         'typeHero',
       ],
     })
+  }
+
+  async updateHero(idHero: number, updateHero: UpdateHeroDto) {
+    const hero = await this.findHeroById(idHero);
+
+    if (!hero) {
+      throw new NotFoundException('hero not found');
+    }
+
+    await this.heroRepository.update(hero.idHero, {
+      ...updateHero,
+    });
+
+    return { message: `hero ${hero.name} updated with success` };
   }
 
   async findHeroById(idHero: number) {

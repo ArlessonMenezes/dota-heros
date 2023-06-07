@@ -31,6 +31,11 @@ export class UserController {
     return this.userService.updateUser(idUser, updateUserDto);
   }
 
+  @Get('/:idUser')
+  async getProfile(@Param('idUser', ParseIntPipe) idUser: number) {
+    return this.userService.findUserById(idUser);
+  }
+
   @Post('/:idUser/add-hero')
   async addHeroToUserList(
     @Param('idUser', ParseIntPipe) idUser: number,
