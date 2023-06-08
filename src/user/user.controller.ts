@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
-import { idUser } from 'src/utils/decoratos/ise-user.decorator';
+import { idUser } from 'src/utils/decoratos/user.decorator';
 
 import { CreateUSerDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
