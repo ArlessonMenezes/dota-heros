@@ -8,12 +8,12 @@ import { User } from './user/model/user.entity';
 import { JwtModule } from '@nestjs/jwt/dist';
 import { HeroModule } from './hero/hero.module';
 import { Hero } from './hero/model/hero.entity';
+import { RolesGuard } from './guards/role.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: process.env.DB_TYPE,
       host: process.env.DB_LOCALHOST,
@@ -31,6 +31,11 @@ import { Hero } from './hero/model/hero.entity';
     HeroModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [ 
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    }
+  ],
 })
 export class AppModule {}

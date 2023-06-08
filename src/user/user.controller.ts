@@ -1,9 +1,8 @@
-import { Body, Controller, Post, Get, Param, Delete, ParseIntPipe, Query, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { idUser } from 'src/utils/decoratos/ise-user.decorator';
-import { Roles } from 'src/utils/decoratos/role.decorator';
+
 import { CreateUSerDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { TypeUserEnum } from './enum/type-user.enum';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -33,7 +32,7 @@ export class UserController {
 
   @Get('/:idUser')
   async getProfile(@Param('idUser', ParseIntPipe) idUser: number) {
-    return this.userService.findUserById(idUser);
+    return this.userService.getProfile(idUser);
   }
 
   @Post('/:idUser/add-hero')

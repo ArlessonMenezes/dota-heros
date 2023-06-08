@@ -12,6 +12,7 @@ import { UserService } from './user.service';
     HeroModule,
   ],
   providers: [UserService],
-  controllers: [UserController]
+  controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

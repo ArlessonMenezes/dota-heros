@@ -49,12 +49,22 @@ export class UserService {
       });
     }
 
-    async getOneUser(idUser: number) {
+    async getProfile(idUser: number) {
       const user = await this.findUserById(idUser);
       
       if (!user) {
         throw new NotFoundException('user not found.');
       }
+
+      const { 
+        password,
+        createdAt,
+        updatedAt,
+        typeUser,
+        ...userReturn 
+      } = user;
+
+      return userReturn;
     }
 
     async findUserByEmail(email: string) {
