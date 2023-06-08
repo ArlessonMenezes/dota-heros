@@ -157,4 +157,30 @@ export class UserService {
 
       return msg; 
     }
+
+    async findHeroInUserList(idUser: number, nameHero: string) {
+      const user = await this.findUserById(idUser);
+
+      if (!user) {
+        throw new NotFoundException('user not found.');
+      };
+
+      const findHero = user.heros?.map(async (h) => h)
+      .find(async (hero) => (await hero).name === nameHero);
+            
+      if (!findHero) {
+        throw new NotFoundException('hero not found in your list');
+      }  
+
+      const returnHero = {
+        name: (await findHero).name,
+        breed: (await findHero).breed,
+        typeHero: (await findHero).typeHero,
+        description: (await findHero).description,
+      }
+
+      return returnHero;
+    };
 }
+
+

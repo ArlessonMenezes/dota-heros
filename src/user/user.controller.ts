@@ -50,4 +50,12 @@ export class UserController {
     ) {
     return this.userService.removeHeroToUserList(idUser, nameHero);
   }
+
+  @Get('/:idUser/filter-hero')
+  async filterHero(
+    @Param('idUser', ParseIntPipe) idUser: number,
+    @Query('name') nameHero: string,
+  ) {
+    return this.userService.findHeroInUserList(idUser, nameHero);
+  }
 }
