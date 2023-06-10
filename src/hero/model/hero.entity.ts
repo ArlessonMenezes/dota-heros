@@ -1,5 +1,15 @@
-import { User } from "src/user/model/user.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Skill } from 'src/skill/model/sikill.entity';
+import { User } from 'src/user/model/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Hero {
@@ -23,6 +33,13 @@ export class Hero {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToOne(() => Skill, (skill) => skill.hero)
+  @JoinColumn({
+    name: 'idSkill',
+    referencedColumnName: 'idSkill',
+  })
+  skill: Skill;
 
   @ManyToOne(() => User, (user) => user.heros)
   @JoinColumn({

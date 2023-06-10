@@ -1,15 +1,18 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt/dist';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist';
-import { UserModule } from './user/user.module';
+
 import { AuthModule } from './auth/auth.module';
-import { User } from './user/model/user.entity';
-import { JwtModule } from '@nestjs/jwt/dist';
+import { RolesGuard } from './guards/role.guard';
 import { HeroModule } from './hero/hero.module';
 import { Hero } from './hero/model/hero.entity';
-import { RolesGuard } from './guards/role.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { Skill } from './skill/model/sikill.entity';
+import { SkillModule } from './skill/skill.module';
+import { User } from './user/model/user.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -21,7 +24,7 @@ import { APP_GUARD } from '@nestjs/core';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Hero],
+      entities: [User, Hero, Skill],
       synchronize: true,
       autoLoadEntities: true
     }as TypeOrmModuleOptions),
@@ -29,6 +32,7 @@ import { APP_GUARD } from '@nestjs/core';
     AuthModule,
     JwtModule,
     HeroModule,
+    SkillModule,
   ],
   controllers: [],
   providers: [ 
