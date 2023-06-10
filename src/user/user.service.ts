@@ -214,10 +214,11 @@ export class UserService {
 
       const hashedPassword = await hash(updatePassword.newPassword, 10);
 
-
       await this.userRepository.update(user.idUser, {
         password: hashedPassword,
-      })
+      });
+
+      return { message: 'password updated with success' };
     }
 }
 
