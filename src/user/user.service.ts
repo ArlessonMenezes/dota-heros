@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { NotFoundException } from '@nestjs/common/exceptions';
+import { BadGatewayException, NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { HeroService } from 'src/hero/hero.service';
 import { Repository } from 'typeorm';
 
 import { CreateUSerDto } from './dtos/create-user.dto';
+import { UpdatePasswordDto } from './dtos/update-password.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { TypeUserEnum } from './enum/type-user.enum';
 import { User } from './model/user.entity';
@@ -181,6 +182,43 @@ export class UserService {
 
       return returnHero;
     };
+
+    async updatePassword(idUser: number, updatePassword: UpdatePasswordDto) {
+      const user = await this.findUserById(idUser);
+
+      if (!user) {
+        throw new NotFoundException('user not found');
+      };
+
+      const comparePassword = await compare(
+        updatePassword.currentPassword,
+        user.password,
+      );
+
+      if (!comparePassword) {
+        throw new BadRequestException('password is invalid');
+      };
+
+      if (updatePassword.newPassword !== updatePassword.confirmedNewPassword) {
+        throw new BadRequestException('passwords do not match');
+      };
+
+      const newPasswordEqualOldPassword = await compare(
+        updatePassword.newPassword,
+        user.password,
+      );
+
+      if (newPasswordEqualOldPassword) {
+        throw new BadRequestException('current password cannot equal old password')
+      }
+
+      const hashedPassword = await hash(updatePassword.newPassword, 10);
+
+
+      await this.userRepository.update(user.idUser, {
+        password: hashedPassword,
+      })
+    }
 }
 
 

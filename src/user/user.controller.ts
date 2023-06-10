@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { idUser } from 'src/utils/decoratos/user.decorator';
 
 import { CreateUSerDto } from './dtos/create-user.dto';
+import { UpdatePasswordDto } from './dtos/update-password.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 
@@ -57,5 +58,13 @@ export class UserController {
     @Query('name') nameHero: string,
   ) {
     return this.userService.findHeroInUserList(idUser, nameHero);
+  }
+
+  @Patch('/:idUser/update-password')
+  async updatePassword(
+    @Param('idUser', ParseIntPipe) idUser: number,
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ) {
+    return this.userService.updatePassword(idUser, updatePasswordDto);
   }
 }
