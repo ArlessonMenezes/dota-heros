@@ -1,5 +1,5 @@
-import { Hero } from "src/hero/model/hero.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Hero } from 'src/hero/model/hero.entity';
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Skill {
@@ -18,10 +18,12 @@ export class Skill {
   @Column()
   ultimate: string;
 
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
   @OneToOne(() => Hero, (hero) => hero.skill)
-  @JoinColumn({
-    name: 'idHero',
-    referencedColumnName: 'idHero',
-  })
   hero: Hero;
 }

@@ -3,6 +3,7 @@ import { BadGatewayException, NotFoundException } from '@nestjs/common/exception
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare, hash } from 'bcrypt';
 import { HeroService } from 'src/hero/hero.service';
+import { Hero } from 'src/hero/model/hero.entity';
 import { Repository } from 'typeorm';
 
 import { CreateUSerDto } from './dtos/create-user.dto';
@@ -46,7 +47,11 @@ export class UserService {
     async getUsers() {
       return this.userRepository.find({
         select: ['idUser', 'username', 'email'],
-        relations: { heros: true },
+        relations: { 
+          heros: { 
+            skill: true 
+          }, 
+        },
       });
     }
 
@@ -166,6 +171,12 @@ export class UserService {
         throw new NotFoundException('user not found.');
       };
 
+      const hero = await this.heroService.findHeroByName(nameHero);
+
+      if (!hero) {
+        throw new NotFoundException('hero not found.');
+      };
+
       const findHero = user.heros?.map(async (h) => h)
       .find(async (hero) => (await hero).name === nameHero);
             
@@ -178,6 +189,7 @@ export class UserService {
         breed: (await findHero).breed,
         typeHero: (await findHero).typeHero,
         description: (await findHero).description,
+        skill: hero.skill
       }
 
       return returnHero;

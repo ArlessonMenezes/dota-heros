@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 import { TypeHeroEnum } from '../enum/type-hero.enum';
 

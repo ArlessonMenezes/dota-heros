@@ -12,9 +12,12 @@ export class HeroController {
   ){}
 
   // @Roles(TypeUserEnum.ADMIN)
-  @Post()
-  async createHero(@Body() createHero: CreateHeroDto) {
-    return this.heroService.createHero(createHero);
+  @Post('/skill/:idSkill')
+  async createHero(
+    @Body() createHero: CreateHeroDto,
+    @Param('idSkill', ParseIntPipe) idSkill: number,
+  ) {
+    return this.heroService.createHero(createHero, idSkill);
   }
   // @Roles(TypeUserEnum.ADMIN, TypeUserEnum.USER)
   @Get()

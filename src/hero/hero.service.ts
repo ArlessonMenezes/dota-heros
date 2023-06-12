@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SkillService } from 'src/skill/skill.service';
 import { Repository } from 'typeorm';
 
 import { CreateHeroDto } from './dtos/create-hero.dto';
@@ -11,16 +12,29 @@ export class HeroService {
   constructor(
     @InjectRepository(Hero)
     private readonly heroRepository: Repository<Hero>,
+    private readonly skilService: SkillService,
   ){}
 
-  async createHero(createHero: CreateHeroDto) {
+  async createHero(createHero: CreateHeroDto, idSkill: number) {
     const hero = await this.findHeroByName(createHero.name);
 
     if (hero) {
       throw new NotFoundException('hero alerady exists in database.');
     }
 
-    const createdHero = this.heroRepository.create(createHero);
+    const skill = await this.skilService.findSkillById(
+      idSkill,
+    );
+
+    if (!skill) {
+      throw new NotFoundException('skill not found');
+    }
+
+    const createdHero = this.heroRepository.create({
+      ...createHero,
+      skill,
+    });
+
     await this.heroRepository.save(createdHero);
   };
 
@@ -33,6 +47,7 @@ export class HeroService {
         'description',
         'typeHero',
       ],
+      relations: { skill: true },
     })
   }
 
@@ -59,6 +74,14 @@ export class HeroService {
   async findHeroByName(nameHero: string) {
     return this.heroRepository.findOne({
       where: { name: nameHero },
+      select: [
+        'idHero',
+        'name',
+        'breed',
+        'description',
+        'typeHero',
+      ],
+      relations: { skill: true },
     });
   };
 }

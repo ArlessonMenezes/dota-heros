@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsNumber } from "class-validator";
 import { TypeHeroEnum } from "../enum/type-hero.enum";
 
 export class CreateHeroDto {

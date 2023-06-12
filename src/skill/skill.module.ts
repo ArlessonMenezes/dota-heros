@@ -8,9 +8,9 @@ import { SkillService } from './skill.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Skill]),
-    HeroModule,
   ],
   controllers: [SkillController],
-  providers: [SkillService]
+  providers: [SkillService],
+  exports: [SkillService],
 })
 export class SkillModule {}
